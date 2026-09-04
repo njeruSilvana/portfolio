@@ -1,4 +1,7 @@
-import { HiExternalLink } from 'react-icons/hi'
+'use client'
+import { useState } from 'react'
+import Image from 'next/image'
+import { HiExternalLink, HiX } from 'react-icons/hi'
 import { BsCalendar3, BsClock, BsImage } from 'react-icons/bs'
 import { MdVerified } from 'react-icons/md'
 import { SiReact, SiNextdotjs, SiTypescript } from 'react-icons/si'
@@ -14,8 +17,10 @@ const certs = [
     skills: ['Leadership', 'Communication', 'Teamwork', 'Problem Solving', 'Career Readiness', 'Workplace Ethics'],
     accent: '#1B4332',
     accentLight: '#D8F3DC',
-    Icon: SiAlx ,
+    Icon: SiAlx,
     // credential: 'ALX-PF-2025',
+    // Place this file in your /public/certificates folder
+    certificateImage: '/certificates/professional-foundations.png',
   },
   {
     issuer: 'ALX Africa',
@@ -26,8 +31,10 @@ const certs = [
     skills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Responsive UI', 'Dynamic Interfaces'],
     accent: '#F4A000',
     accentLight: '#FFF3CD',
-    Icon: SiAlx ,
+    Icon: SiAlx,
     // credential: 'ALX-FEPD-2025',
+    // Place this file in your /public/certificates folder
+    certificateImage: '/certificates/frontend-prodev.png',
     techIcons: [
       { Icon: SiReact,      label: 'React'      },
       { Icon: SiNextdotjs,  label: 'Next.js'    },
@@ -37,6 +44,8 @@ const certs = [
 ]
 
 export default function Certificates() {
+  const [activeCert, setActiveCert] = useState<{ title: string; image: string } | null>(null)
+
   return (
     <section id="certificates" className="section">
       <div className="container">
@@ -54,7 +63,7 @@ export default function Certificates() {
 
         {/* ── Certificate Cards ── */}
         <div className="cert-grid">
-          {certs.map(({ issuer, date, duration, title, desc, skills, accent, accentLight, Icon, techIcons }) => (
+          {certs.map(({ issuer, date, duration, title, desc, skills, accent, accentLight, Icon, techIcons, certificateImage }) => (
             <div key={title} className="cert-card">
 
               {/* Top colour bar is already handled by cert-card::before in CSS */}
@@ -139,9 +148,14 @@ export default function Certificates() {
                     {/* ID: {credential} */}
                   </span>
                 </div>
-                <a href="#" className="cert-view-btn">
+                <button
+                  type="button"
+                  onClick={() => setActiveCert({ title, image: certificateImage })}
+                  className="cert-view-btn"
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}
+                >
                   View Certificate <HiExternalLink size={12} />
-                </a>
+                </button>
               </div>
 
             </div>
@@ -185,6 +199,113 @@ export default function Certificates() {
         </div>
 
       </div>
+
+      {/* ── Lightbox Modal ── */}
+      {activeCert && (
+        <div
+          onClick={() => setActiveCert(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.85)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 24,
+            animation: 'fadeIn 0.2s ease',
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: 'relative',
+              maxWidth: 900,
+              width: '100%',
+              maxHeight: '90vh',
+              background: 'var(--section)',
+              borderRadius: 16,
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {/* Header */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '16px 20px',
+              borderBottom: '1px solid var(--border)',
+            }}>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', margin: 0 }}>
+                {activeCert.title}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setActiveCert(null)}
+                aria-label="Close"
+                style={{
+                  background: 'var(--section-alt)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '50%',
+                  width: 32,
+                  height: 32,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  color: 'var(--text)',
+                  flexShrink: 0,
+                }}
+              >
+                <HiX size={16} />
+              </button>
+            </div>
+
+            {/* Image */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              flex: 1,
+              minHeight: 300,
+              maxHeight: 'calc(90vh - 120px)',
+              background: '#000',
+            }}>
+              <Image
+                src={activeCert.image}
+                alt={activeCert.title}
+                fill
+                sizes="900px"
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
+
+            {/* Footer */}
+            <div style={{
+              padding: '14px 20px',
+              borderTop: '1px solid var(--border)',
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}>
+              <a
+                href={activeCert.image}
+                download
+                className="cert-view-btn"
+              >
+                Download Certificate <HiExternalLink size={12} />
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style jsx global>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
     </section>
   )
 }

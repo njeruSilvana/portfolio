@@ -1,5 +1,5 @@
 import { HiArrowRight } from 'react-icons/hi'
-import { BsCodeSlash, BsPalette2, BsServer, BsPhone } from 'react-icons/bs'
+import { BsCodeSlash, BsPalette2, BsServer, BsGithub } from 'react-icons/bs'
 import { MdOutlineDashboardCustomize } from 'react-icons/md'
 import { TbApi } from 'react-icons/tb'
 
@@ -7,32 +7,32 @@ const services = [
   {
     icon: <BsCodeSlash size={22} />,
     title: 'Frontend Development',
-    desc: 'Building responsive, pixel-perfect interfaces with React, Next.js, and Tailwind CSS that work beautifully on every device.',
+    desc: 'Building responsive, pixel-perfect interfaces with React, Next.js, TypeScript, and Tailwind CSS; from reusable component libraries to fully accessible, mobile-first layouts.',
   },
-  // {
-  //   icon: <BsServer size={22} />,
-  //   title: 'Backend Development',
-  //   desc: 'Designing robust REST APIs and server-side logic with Node.js, Express, and Python. Database design with PostgreSQL & MongoDB.',
-  // },
+  {
+    icon: <BsServer size={22} />,
+    title: 'Backend & Database Integration',
+    desc: 'Building REST APIs and server-side logic with Node.js, and structuring data with PostgreSQL and MongoDB to power dynamic, data-driven applications.',
+  },
+  {
+    icon: <MdOutlineDashboardCustomize size={22} />,
+    title: 'Full-Stack Web Applications',
+    desc: 'Shipping complete platforms end to end  dynamic routing, type-safe data handling, and application state management, like an Airbnb-style listings app and a youth-entrepreneurship network connecting founders with investors.',
+  },
+  {
+    icon: <TbApi size={22} />,
+    title: 'API & Third-Party Integration',
+    desc: 'Connecting frontends to external services and APIs  authentication, data feeds, and other third-party tooling so your product talks to the systems it needs to.',
+  },
   {
     icon: <BsPalette2 size={22} />,
     title: 'UI/UX Design',
-    desc: 'Translating ideas into clean, intuitive interfaces using Figma. Focused on accessibility, usability, and delightful user flows.',
+    desc: 'Translating ideas into clean, intuitive interfaces in Figma, with a focus on accessibility, consistent design systems, and delightful user flows.',
   },
-  // {
-  //   icon: <BsPhone size={22} />,
-  //   title: 'Responsive Web Apps',
-  //   desc: 'Mobile-first web applications optimized for all screen sizes, ensuring consistent and smooth experiences across devices.',
-  // },
-  // {
-  //   icon: <MdOutlineDashboardCustomize size={22} />,
-  //   title: 'Dashboard & Data UI',
-  //   desc: 'Building data-rich dashboards with charts, filters, and real-time updates using React and visualization libraries.',
-  // },
   {
-    icon: <TbApi size={22} />,
-    title: 'API Integration',
-    desc: 'Connecting frontends to third-party APIs and services — from authentication and payments to real-time data feeds.',
+    icon: <BsGithub size={22} />,
+    title: 'Collaboration & Deployment',
+    desc: 'Working in team environments with Git and pull-request workflows, then shipping and maintaining production sites on Vercel and Netlify.',
   },
 ]
 

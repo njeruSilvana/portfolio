@@ -34,7 +34,7 @@ export default function Footer() {
         <div className="footer-copy">
           Designed &amp; built with{' '}
           <HiHeart size={12} style={{ display: 'inline', color: 'var(--amber)' }} />{' '}
-          using Next.js &amp; Tailwind CSS · © {new Date().getFullYear()} Alex Omondi
+          using Next.js &amp; Tailwind CSS · © {new Date().getFullYear()} Silvana Muthoni Njeru
         </div>
       </div>
     </footer>

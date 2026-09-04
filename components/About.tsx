@@ -1,3 +1,5 @@
+'use client'
+import Image from 'next/image'
 import { HiArrowRight, HiDownload } from 'react-icons/hi'
 import { BsCodeSlash, BsPalette2, BsLightningChargeFill, BsPeopleFill } from 'react-icons/bs'
 
@@ -10,7 +12,14 @@ export default function About() {
           {/* ── Image side ── */}
           <div className="about-image-wrap">
             <div className="about-circle float">
-              <span className="about-circle-avatar" role="img" aria-label="avatar">👩‍💻</span>
+              {/* Replace '/profile.jpg' with your photo file in the /public folder */}
+              <Image
+                src="/profile.jpg"
+                alt="Silvana Njeru"
+                fill
+                sizes="(max-width: 768px) 220px, 320px"
+                style={{ objectFit: 'cover', borderRadius: '50%' }}
+              />
             </div>
 
             {[
@@ -19,6 +28,7 @@ export default function About() {
               { label: 'Tailwind CSS',    style: { top: 55,     right: -25 } },
               { label: 'HTML & CSS',      style: { top: 145,    left: -35  } },
               { label: 'UI/UX Design',    style: { bottom: 100, left: -15  } },
+              { label: 'Go (learning)',   style: { top: 10,     left: 90   } },
             ].map(({ label, style }) => (
               <div key={label} className="about-tag" style={style}>{label}</div>
             ))}
@@ -32,19 +42,21 @@ export default function About() {
             </h2>
 
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 15, lineHeight: 1.8, marginBottom: 20 }}>
-              I&apos;m a final-year Computer Science student specializing in
+              I&apos;m a Computer Science graduate specializing in
               frontend development. I build responsive, accessible web interfaces
               using <strong style={{ color: 'white' }}>React, Next.js, TypeScript</strong> and{' '}
               <strong style={{ color: 'white' }}>Tailwind CSS</strong> writing
-              code that is clean, readable, and built to last.
+              code that is clean, readable, and built to last. I&apos;m also currently
+              expanding into <strong style={{ color: 'white' }}>Go</strong>, growing
+              my range across the stack.
             </p>
 
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 15, lineHeight: 1.8, marginBottom: 32 }}>
               I care deeply about the details; from consistent spacing to smooth
               interactions, because the quality of a UI reflects the quality of
-              the team behind it. Currently in my last semester and actively
-              seeking <strong style={{ color: 'white' }}>frontend internships
-              and entry-level roles</strong> where I can contribute from day one.
+              the team behind it. I&apos;ve completed my studies and am now awaiting
+              graduation, actively seeking <strong style={{ color: 'white' }}>frontend
+              internships and entry-level roles</strong> where I can contribute from day one.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
@@ -84,21 +96,8 @@ export default function About() {
               ))}
             </div>
 
-            {/* <div className="about-stats">
-              {[
-                { num: 'Final', label: 'Semester'      },
-                { num: '5+',   label: 'Projects Built' },
-                { num: '2',    label: 'Certificates'   },
-              ].map(({ num, label }) => (
-                <div key={label}>
-                  <div className="about-stat-num">{num}</div>
-                  <div className="about-stat-label">{label}</div>
-                </div>
-              ))}
-            </div> */}
-
             <div style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
-              <a href="/cv.pdf" className="btn btn-amber" download>
+              <a href="/cv.pdf" className="btn btn-amber" download="Silvana_Njeru_CV.pdf">
                 <HiDownload size={15} />
                 Download CV
               </a>

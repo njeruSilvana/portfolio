@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { FiPlay, FiArrowRight } from 'react-icons/fi'
+import Image from 'next/image'
+import { FiPlay} from 'react-icons/fi'
 import { BsCodeSlash, BsLightningChargeFill } from 'react-icons/bs'
 import { SiReact, SiNextdotjs, SiTailwindcss, SiTypescript } from 'react-icons/si'
 import { MdOutlineWorkOutline } from 'react-icons/md'
@@ -20,20 +21,30 @@ export default function Hero() {
   const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
-    const full = stack[idx]
-    let t: ReturnType<typeof setTimeout>
-    if (!deleting && text.length < full.length) {
-      t = setTimeout(() => setText(full.slice(0, text.length + 1)), 80)
-    } else if (!deleting && text.length === full.length) {
-      t = setTimeout(() => setDeleting(true), 2000)
-    } else if (deleting && text.length > 0) {
-      t = setTimeout(() => setText(full.slice(0, text.length - 1)), 42)
-    } else {
+  const full = stack[idx]
+  let t: ReturnType<typeof setTimeout>
+
+  if (!deleting && text.length < full.length) {
+    t = setTimeout(() => {
+      setText(full.slice(0, text.length + 1))
+    }, 80)
+  } else if (!deleting && text.length === full.length) {
+    t = setTimeout(() => {
+      setDeleting(true)
+    }, 2000)
+  } else if (deleting && text.length > 0) {
+    t = setTimeout(() => {
+      setText(full.slice(0, text.length - 1))
+    }, 42)
+  } else {
+    t = setTimeout(() => {
       setDeleting(false)
       setIdx((i) => (i + 1) % stack.length)
-    }
-    return () => clearTimeout(t)
-  }, [text, deleting, idx])
+    }, 0)
+  }
+
+  return () => clearTimeout(t)
+}, [text, deleting, idx, stack])
 
   return (
     <section id="home" className="hero">
@@ -43,17 +54,17 @@ export default function Hero() {
           {/* ── Left ── */}
           <div>
 
-            {/* Availability badge — first thing a recruiter sees */}
+            
             <div className="hero-tag anim-1">
               <BsLightningChargeFill size={11} color="var(--amber)" />
-              Final semester · Available for internships &amp; entry-level roles
+              Awaiting graduation · Available for internships &amp; entry-level roles
             </div>
 
             {/* Headline — name + what you DO, not what you ARE */}
             <h1 className="hero-title anim-2">
               Hi, I&apos;m{' '}
               <span className="name">Silvana Njeru</span>
-              {' '},<br />
+              {' '}
               I build clean,{' '}
               <span style={{ color: 'var(--green)' }}>responsive</span>
               <br />
@@ -69,8 +80,8 @@ export default function Hero() {
               </strong>
               <br />
               Turning designs into fast, pixel-perfect web experiences.
-              Currently in my final semester and actively looking for
-              opportunities to contribute to a real team.
+              Recently completed my final semester and now awaiting graduation,
+              actively looking for opportunities to contribute to a real team.
             </p>
 
             {/* CTAs */}
@@ -122,27 +133,20 @@ export default function Hero() {
               ))}
             </div>
 
-            {/* Stats */}
-            {/* <div className="hero-stats" style={{ marginTop: 28, paddingTop: 24 }}>
-              {[
-                { num: 'Final', label: 'Semester' },
-                { num: '10+',   label: 'Projects Built' },
-                { num: '2',     label: 'Certificates' },
-              ].map(({ num, label }) => (
-                <div key={label}>
-                  <div className="stat-num">{num}</div>
-                  <div className="stat-label">{label}</div>
-                </div>
-              ))}
-            </div> */}
           </div>
 
           {/* ── Right ── */}
           <div className="hero-image-wrap anim-3">
             <div className="hero-circle float">
-              <span className="hero-avatar-text" role="img" aria-label="developer">
-                👨‍💻
-              </span>
+             
+              <Image
+                src="/profile.jpg"
+                alt="Silvana Njeru — Frontend Developer"
+                fill
+                sizes="(max-width: 768px) 220px, 320px"
+                style={{ objectFit: 'cover', borderRadius: '50%' }}
+                priority
+              />
             </div>
 
             {/* Floating badges — specific, not generic */}
@@ -151,7 +155,7 @@ export default function Hero() {
               Frontend Developer
             </div>
             <div className="hero-badge hero-badge-2">
-              🎓 CS Student · Final Year
+              🎓 CS Graduate · Awaiting Graduation
             </div>
           </div>
 

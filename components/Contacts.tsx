@@ -1,17 +1,68 @@
 'use client'
 import { useState } from 'react'
-import { HiArrowRight } from 'react-icons/hi'
+// import { HiArrowRight } from 'react-icons/hi'
 import { FiMail, FiMapPin, FiClock, FiSend } from 'react-icons/fi'
-import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa'
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
 
 const interests = [
   'Web Development', 'UI/UX Design', 'Full-time Role', 'Internship',
 ]
 
+// Get a free Access Key at https://web3forms.com by entering njerusilvana23@gmail.com
+// It emails you the key instantly — paste it below. No backend/server needed.
+const WEB3FORMS_ACCESS_KEY = '54aa0d70-7379-4737-be05-009dbfffc0ce'
+
+type Status = 'idle' | 'sending' | 'success' | 'error'
+
 export default function Contact() {
   const [chips, setChips] = useState<string[]>([])
   const toggle = (c: string) =>
     setChips((p) => p.includes(c) ? p.filter((x) => x !== c) : [...p, c])
+
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [status, setStatus] = useState<Status>('idle')
+
+  const handleChange = (field: keyof typeof form) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm((f) => ({ ...f, [field]: e.target.value }))
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!form.name || !form.email || !form.message) {
+      setStatus('error')
+      return
+    }
+
+    setStatus('sending')
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: form.name,
+          email: form.email,
+          subject: form.subject || `Portfolio message from ${form.name}`,
+          message: form.message,
+          interested_in: chips.join(', ') || 'Not specified',
+        }),
+      })
+
+      const data = await res.json()
+
+      if (data.success) {
+        setStatus('success')
+        setForm({ name: '', email: '', subject: '', message: '' })
+        setChips([])
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
 
   return (
     <section id="contact" className="section section-alt">
@@ -98,7 +149,7 @@ export default function Contact() {
           </div>
 
           {/* ── Right form ── */}
-          <div style={{
+          <form onSubmit={handleSubmit} style={{
             background: 'var(--white)',
             border: '1px solid var(--border)',
             borderRadius: 'var(--radius-lg)',
@@ -126,24 +177,67 @@ export default function Contact() {
             {/* Form */}
             <div className="form-row">
               <div className="form-group">
-                <input className="form-input" placeholder="Your name" type="text" />
+                <input
+                  className="form-input"
+                  placeholder="Your name"
+                  type="text"
+                  value={form.name}
+                  onChange={handleChange('name')}
+                  required
+                />
               </div>
               <div className="form-group">
-                <input className="form-input" placeholder="Your email" type="email" />
+                <input
+                  className="form-input"
+                  placeholder="Your email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange('email')}
+                  required
+                />
               </div>
             </div>
             <div className="form-group">
-              <input className="form-input" placeholder="Subject" type="text" />
+              <input
+                className="form-input"
+                placeholder="Subject"
+                type="text"
+                value={form.subject}
+                onChange={handleChange('subject')}
+              />
             </div>
             <div className="form-group">
-              <textarea className="form-input" placeholder="Your message..." rows={5} />
+              <textarea
+                className="form-input"
+                placeholder="Your message..."
+                rows={5}
+                value={form.message}
+                onChange={handleChange('message')}
+                required
+              />
             </div>
 
-            <button className="btn btn-green" style={{ width: '100%', justifyContent: 'center', marginTop: 4 }}>
+            <button
+              type="submit"
+              disabled={status === 'sending'}
+              className="btn btn-green"
+              style={{ width: '100%', justifyContent: 'center', marginTop: 4, opacity: status === 'sending' ? 0.7 : 1 }}
+            >
               <FiSend size={14} />
-              Send Message
+              {status === 'sending' ? 'Sending…' : 'Send Message'}
             </button>
-          </div>
+
+            {status === 'success' && (
+              <p style={{ color: 'var(--green)', fontSize: 13, marginTop: 12, textAlign: 'center' }}>
+                Message sent! I&apos;ll get back to you soon.
+              </p>
+            )}
+            {status === 'error' && (
+              <p style={{ color: '#c0392b', fontSize: 13, marginTop: 12, textAlign: 'center' }}>
+                Something went wrong — please fill in the required fields, or email me directly.
+              </p>
+            )}
+          </form>
 
         </div>
       </div>
